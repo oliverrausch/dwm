@@ -313,6 +313,8 @@ struct Pertag {
 	unsigned int curtag, prevtag; /* current and previous tag */
 	int nmasters[LENGTH(tags) + 1]; /* number of windows in master area */
 	float mfacts[LENGTH(tags) + 1]; /* mfacts per tag */
+	int previous_layout[LENGTH(tags)+1];
+	int change_from_full[LENGTH(tags)+1];
 	unsigned int sellts[LENGTH(tags) + 1]; /* selected layouts */
 	const Layout *ltidxs[LENGTH(tags) + 1][2]; /* matrix of tags and layouts indexes  */
 };
@@ -749,6 +751,8 @@ createmon(void)
 	for (i=0; i <= LENGTH(tags); i++) {
 		/* init nmaster */
 		m->pertag->nmasters[i] = m->nmaster;
+		m->pertag->change_from_full[i] = 0;
+		m->pertag->previous_layout[i] = 0;
 
 		/* init mfacts */
 		m->pertag->mfacts[i] = m->mfact;
@@ -1710,9 +1714,6 @@ setfullscreen(Client *c, int fullscreen)
 	}
 }
 
-static int previous_layout = 0;
-static int change_to_full = 1;
-
 void
 setlayout(const Arg *argI)
 {
@@ -1720,14 +1721,14 @@ setlayout(const Arg *argI)
 	arg->v = &layouts[argI->i];
 
 	if (argI->i == 1) {
-		if (change_to_full) {
-			change_to_full = 0;
+		if (!selmon->pertag->change_from_full[selmon->pertag->curtag]) {
+			selmon->pertag->change_from_full[selmon->pertag->curtag] = 1;
 		} else {
-			change_to_full = 1;
-			arg->v = &layouts[previous_layout];
+			selmon->pertag->change_from_full[selmon->pertag->curtag] = 0;
+			arg->v = &layouts[selmon->pertag->previous_layout[selmon->pertag->curtag]];
 		}
 	} else {
-		previous_layout = argI->i;
+		selmon->pertag->previous_layout[selmon->pertag->curtag]= argI->i;
 	}
 
 	if (!arg || !arg->v || arg->v != selmon->lt[selmon->sellt]) {
