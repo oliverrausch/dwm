@@ -1,3 +1,11 @@
+# Changes
+ - bolder border color and width
+ - systray
+ - keybinds
+ - tcl
+ - changed setlayout function to accept integer arguments
+ - changed setlayout to toggle switching to fullscreen (i.e. when setting layout to integer 1, it will switch to that layout. on a second press it will switch back to the previous layout)
+
 # dwm - dynamic window manager
 dwm is an extremely fast, small, and dynamic window manager for X.
 
@@ -44,13 +52,4 @@ like this in your .xinitrc:
 ## Configuration
 The configuration of dwm is done by creating a custom config.h
 and (re)compiling the source code.
-
-# Changes
- - bolder border color and width
- - systray
- - keybinds
- - tcl
- - changed setlayout function to accept integer arguments
- - changed setlayout to toggle switching to fullscreen (i.e. when setting layout to integer 1, it will switch to that layout. on a second press it will switch back to the previous layout)
-
 
