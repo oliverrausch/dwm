@@ -6,7 +6,7 @@ if [ -x /usr/bin/xfce4-power-manager ] ; then
 fi
 
 while true; do
-   xsetroot -name "$( date +"%F %I:%M %p" )"
+   xsetroot -name "MEM: $(free -m | awk '/Mem/{print $3}') | $( date +"%F %I:%M %p" )"
    sleep 10
 done &
 
